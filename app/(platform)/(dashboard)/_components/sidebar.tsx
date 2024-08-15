@@ -66,7 +66,7 @@ export const Sidebar = ({
 
   return (
     <>
-      <div className="font-medium text-xs flex items-center mb-1">
+      <div className="dark:text-white  font-medium text-xs flex items-center mb-1">
         <span className="pl-4">Workspaces</span>
         <Button
           asChild

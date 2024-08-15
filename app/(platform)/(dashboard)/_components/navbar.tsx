@@ -4,9 +4,10 @@ import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 import { MobileSidebar } from "./mobile-sidebar";
 import { FormPopover } from "@/components/form/form-popover";
+import { ModeToggle } from "@/components/mode-toggle";
 const Navbar = () => {
   return (
-    <nav className="fixed z-50 top-0 px-4  w-full h-14 border-b shadow-sm bg-white flex items-center">
+    <nav className="dark:bg-[#1f1f1f] dark:text-white fixed z-50 top-0 px-4  w-full h-14 border-b shadow-sm bg-white flex items-center">
       {/* MOBILE SIDEBAR */}
       <MobileSidebar />
       {/* DESKTOP SIDEBAR */}
@@ -33,7 +34,9 @@ const Navbar = () => {
           </Button>
         </FormPopover>
       </div>
+
       <div className="ml-auto flex items-center gap-x-2">
+        <ModeToggle />
         <OrganizationSwitcher
           hidePersonal
           afterCreateOrganizationUrl="/organization/:id"

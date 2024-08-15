@@ -7,10 +7,21 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { Activity, CreditCard, Layout, Settings } from "lucide-react";
+import {
+  Activity,
+  CreditCard,
+  FileText,
+  Layout,
+  PlusCircle,
+  Search,
+  Settings,
+} from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DocumentList } from "./documents-list";
+import { DocumentItem } from "./document-item";
+import { useSearch } from "@/hooks/use-search";
 
 export type Organization = {
   id: string;
@@ -32,9 +43,15 @@ export const NavItem = ({
   organization,
   onExpand,
 }: NavItemProps) => {
+  const search = useSearch();
   const router = useRouter();
   const pathname = usePathname();
   const routes = [
+    {
+      label: "Documents",
+      icon: <FileText className="h-4 w-4 mr-2" />,
+      href: `/organization/${organization.id}/documents`,
+    },
     {
       label: "Boards",
       icon: <Layout className="h-4 w-4 mr-2" />,
@@ -52,7 +69,7 @@ export const NavItem = ({
     },
     {
       label: "Billing",
-      icon: <Settings className="h-4 w-4 mr-2" />,
+      icon: <CreditCard className="h-4 w-4 mr-2" />,
       href: `/organization/${organization.id}/billing`,
     },
   ];
@@ -66,7 +83,7 @@ export const NavItem = ({
       <AccordionTrigger
         onClick={() => onExpand(organization.id)}
         className={cn(
-          "flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
+          "flex items-center gap-x-2 p-1.5 dark:text-white  text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
           isActive && !isExpanded && "bg-sky-500/10 text-sky-700",
         )}
       >
@@ -83,20 +100,34 @@ export const NavItem = ({
         </div>
       </AccordionTrigger>
       <AccordionContent className="pt-1 text-neutral-700">
+        {/* <DocumentItem
+          label="Search"
+          icon={Search}
+          isSearch
+          onClick={search.onOpen}
+        /> */}
+        {/* <DocumentItem
+          onClick={() => {}}
+          label="Document Item"
+          icon={PlusCircle}
+        /> */}
         {routes.map((route) => (
-          <Button
-            key={route.href}
-            size="sm"
-            onClick={() => onClick(route.href)}
-            className={cn(
-              "w-full font-normal justify-start pl-10 mb-1",
-              pathname === route.href && "bg-sky-500/10 text-sky-700",
-            )}
-            variant="ghost"
-          >
-            {route.icon}
-            {route.label}
-          </Button>
+          <div>
+            <Button
+              key={route.href}
+              size="sm"
+              onClick={() => onClick(route.href)}
+              className={cn(
+                "w-full font-normal dark:text-white  justify-start pl-10 mb-1",
+                pathname === route.href && "bg-sky-500/10 text-sky-700",
+              )}
+              variant="ghost"
+            >
+              {route.icon}
+              {route.label}
+            </Button>
+            {route.label === "Documents" ? <DocumentList /> : ""}
+          </div>
         ))}
       </AccordionContent>
     </AccordionItem>

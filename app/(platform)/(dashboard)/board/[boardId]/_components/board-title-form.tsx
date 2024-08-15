@@ -60,14 +60,14 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
       <form
         action={onSubmit}
         ref={formRef}
-        className="flex items-center gap-x-2"
+        className="flex items-center gap-x-2 h-full w-full"
       >
         <FormInput
           ref={inputRef}
           id="title"
           onBlur={onBlur}
           defaultValue={title}
-          className="text-lg font-bold px-[7px] py-1 h-7 bg-transparent focus-visible:outlione-none focus-visible:ring-transparent border-none"
+          className="text-lg font-bold px-[7px] py-1 h-full bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
         />
       </form>
     );

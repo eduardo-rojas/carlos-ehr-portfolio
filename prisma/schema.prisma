@@ -109,3 +109,25 @@ model OrgSubscription {
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
 }
+
+model Document {
+  id String @id @default(uuid())
+  title String 
+  userId    String 
+  orgId String 
+  isArchived Boolean
+  
+  parentDocument String 
+  content String @db.Text
+  
+  coverImage String @db.Text
+  icon String  @db.Text
+
+  isPublished Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([orgId, parentDocument ])
+}
