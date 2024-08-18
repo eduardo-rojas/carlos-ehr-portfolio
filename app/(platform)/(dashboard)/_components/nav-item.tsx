@@ -112,7 +112,7 @@ export const NavItem = ({
           icon={PlusCircle}
         /> */}
         {routes.map((route) => (
-          <div>
+          <div key={route.href}>
             <Button
               key={route.href}
               size="sm"
@@ -127,6 +127,11 @@ export const NavItem = ({
               {route.label}
             </Button>
             {route.label === "Documents" ? <DocumentList /> : ""}
+            {/* {route.label === "Documents"
+              ? documents?.map((document) => (
+                  <p key={document._id}>{document.title}</p>
+                ))
+              : ""} */}
           </div>
         ))}
       </AccordionContent>

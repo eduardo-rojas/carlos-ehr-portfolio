@@ -7,23 +7,38 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth, useUser } from "@clerk/nextjs";
-import { LucideIcon, MoreHorizontal, Plus, Trash } from "lucide-react";
-import { useAction } from "@/hooks/use-action";
-import { deleteDocument } from "@/actions/documents/delete-document";
+import { useAuth, useOrganization, useUser } from "@clerk/nextjs";
+import {
+  ChevronDownIcon,
+  ChevronRight,
+  ChevronUpIcon,
+  LucideIcon,
+  MoreHorizontal,
+  Plus,
+  Trash,
+} from "lucide-react";
+
 import { toast } from "sonner";
 import { MouseEvent } from "react";
-import { Button } from "@/components/ui/button";
-import { DocumentItemOptions } from "./document-options";
+// import { DocumentItemOptions } from "./document-options";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Id } from "@/convex/_generated/dataModel";
+import { cn } from "@/lib/utils";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 interface ItemProps {
-  id?: string;
+  id?: Id<"documents">;
   documentIcon?: string;
   active?: boolean;
   isSearch?: boolean;
   label: string;
-  onClick: () => void;
+  level?: number;
+  onClick?: () => void;
   icon: LucideIcon;
+  onExpand?: () => void;
+  expanded?: boolean;
 }
 
 export const DocumentItem = ({
@@ -34,48 +49,105 @@ export const DocumentItem = ({
   active,
   documentIcon,
   isSearch,
+  level = 0,
+  onExpand,
+  expanded,
 }: ItemProps) => {
+  const router = useRouter();
+  const create = useMutation(api.documents.create);
+
   const { user } = useUser();
+  const { organization } = useOrganization();
 
-  // const { execute: executeDeleteDoc } = useAction(deleteDocument, {
-  //   onSuccess: (data) => {
-  //     toast.success(`List "${data.title} deleted. `);
-  //     // closeRef.current?.click();
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error);
-  //   },
-  // });
+  const archive = useMutation(api.documents.archive);
 
-  // const onDelete = (id: string) => {
-  //   executeDeleteDoc({ id });
-  // };
+  const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
+    if (!id) return;
+    const promise = archive({ id }).then(() =>
+      router.push(`/organization/${organization?.id}/documents`),
+    );
+
+    toast.promise(promise, {
+      loading: "Moving to archive...",
+      success: "Note moved to trash",
+      error: "Failed to archive note.",
+    });
+  };
+
+  const handleExpand = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    event.stopPropagation();
+    onExpand?.();
+  };
+
+  const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
+    if (!id) return;
+
+    const promise = create({ title: "Untitled", parentDocument: id }).then(
+      (documentId) => {
+        if (!expanded) {
+          onExpand?.();
+        }
+        // router.push(
+        //   `/organization/${organization?.id}/documents/${documentId}`,
+        // );
+      },
+    );
+
+    toast.promise(promise, {
+      loading: "Creating a new note...",
+      success: "New note created!",
+      error: "Failed to create a new note.",
+    });
+  };
+
+  const ChevronIcon = expanded ? ChevronDownIcon : ChevronRight;
   return (
     <div
       onClick={onClick}
       role="button"
-      className="group min-h-[27px] text-sm py-1 pr-3 hover:bg-primary/5 flex items-center text-muted-foreground  dark:text-white  w-full font-normal justify-start pl-10 mb-1"
+      style={{ paddingLeft: level ? `${level * 12 + 12}px` : "12px" }}
+      className={cn(
+        "group min-h-[27px] text-sm py-1 pr-3 hover:bg-primary/5 flex items-center text-muted-foreground  dark:text-white  w-full font-normal justify-start pl-10 mb-1",
+        active && "bg-primary/5 text-primary",
+      )}
     >
+      {/* CHEVRON ICON */}
+      {!!id && (
+        <div
+          role="button"
+          className="h-ull rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
+          //@ts-ignore
+          onClick={handleExpand}
+        >
+          <ChevronIcon className="h-5 w-5 shrink-0 text-muted-foreground/50" />
+        </div>
+      )}
+      {/* ICON */}
       {documentIcon ? (
         <div className="shrink-0 mr-2 text-[18px]">{documentIcon}</div>
       ) : (
         <div>
-          <Icon className="shrink-0 h-[15px] mr-1 text-muted-foreground" />
+          <Icon className="shrink-0 h-[15px] w-[15px] mr-1 text-muted-foreground" />
         </div>
       )}
-
+      {/* SEARCH */}
       <span className="truncate">{label}</span>
       {isSearch && (
         <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs">⌘</span>k
+          <span className="text-xs">⌘ + k</span>
         </kbd>
       )}
-
+      {/* MORE: ... */}
       {!!id && (
         <div
           role="button"
           onClick={() => {}}
-          className="w-7 opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+          className="ml-auto flex items-center gap-x-2"
+          // className="w-7 opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
         >
           <DropdownMenu>
             <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
@@ -92,7 +164,15 @@ export const DocumentItem = ({
               side="right"
               forceMount
             >
-              <DocumentItemOptions id={id} />
+              {/* DELETE Document */}
+              {/* <DocumentItemOptions id={id} /> */}
+              <DropdownMenuItem
+                //@ts-ignore
+                onClick={onArchive}
+              >
+                <Trash className="h-4 w-4 mr-2 " />
+                Delete
+              </DropdownMenuItem>
 
               <DropdownMenuSeparator />
               <div>Last edited by: {user?.fullName}</div>
@@ -101,6 +181,32 @@ export const DocumentItem = ({
           {/* <Plus className="h-4 w-4 text-muted-foreground" /> */}
         </div>
       )}
+      {/* PLUS: ... */}
+      {!!id && (
+        <div className="ml-auto flex items-center gap-x-2">
+          <div
+            role="button"
+            //@ts-ignore
+            onClick={onCreate}
+            className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+          >
+            <Plus className="h-4 w-4 text-muted-foreground" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+DocumentItem.Skeleton = function DocumentItemSkeleton({
+  level,
+}: {
+  level?: number;
+}) {
+  return (
+    <div>
+      <Skeleton className="h-4 w-4 " />
+      <Skeleton className="h-4 w-[30%] " />
     </div>
   );
 };

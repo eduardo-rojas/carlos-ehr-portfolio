@@ -5,25 +5,39 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { useAction } from "@/hooks/use-action";
 import { toast } from "sonner";
-import { createDocument } from "@/actions/documents/create-document";
+
 import Spline from "@splinetool/react-spline";
 import { DocumentList } from "../../../_components/documents-list";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 const DocumentsPage = () => {
   const { organization } = useOrganization();
+  const router = useRouter();
 
-  const { execute, fieldErrors } = useAction(createDocument, {
-    onSuccess: (data) => {
-      toast.success(`Document "${data.title}" created`);
-      // formRef.current?.reset();
-    },
-    onError: (error) => {
-      toast.error(error);
-    },
-  });
+  const create = useMutation(api.documents.create);
+
+  // const { execute, fieldErrors } = useAction(createDocument, {
+  //   onSuccess: (data) => {
+  //     toast.success(`Document "${data.title}" created`);
+  //     // formRef.current?.reset();
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error);
+  //   },
+  // });
 
   const onCreate = () => {
-    const promise = execute({ title: "Untitled", parentDocument: "" });
+    const promise = create({ title: "Untitled" }).then((documentId) =>
+      router.push(`/organization/${organization?.id}/documents/${documentId} `),
+    );
+    toast.promise(promise, {
+      loading: "Creating a new note...",
+      success: "New note created",
+      error: "Failed to create a new note.",
+    });
+    // const promise = execute({ title: "Untitled", parentDocument: "" });
   };
 
   return (

@@ -1,18 +1,17 @@
 "use client";
 import { db } from "@/lib/db";
-import { DocumentNavbar } from "./_components/document-navbar";
 import { Document } from "@prisma/client";
-import { Toolbar } from "./_components/toolbar";
 // import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { useMutation, useQuery } from "convex/react";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
-import { Cover } from "./_components/cover";
 import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-
+import { Cover } from "@/app/(platform)/(dashboard)/organization/[organizationId]/documents/[documentId]/_components/cover";
+import { Toolbar } from "@/app/(platform)/(dashboard)/organization/[organizationId]/documents/[documentId]/_components/toolbar";
+import { DocumentNavbar } from "@/app/(platform)/(dashboard)/organization/[organizationId]/documents/[documentId]/_components/document-navbar";
 interface DocumentIdPageProps {
   params: {
     documentId: Id<"documents">;
@@ -22,21 +21,28 @@ interface DocumentIdPageProps {
 
 const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   const Editor = useMemo(
-    () => dynamic(() => import("./_components/editor"), { ssr: false }),
+    () =>
+      dynamic(
+        () =>
+          import(
+            "@/app/(platform)/(dashboard)/organization/[organizationId]/documents/[documentId]/_components/editor"
+          ),
+        { ssr: false },
+      ),
     [],
   );
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
   });
 
-  const update = useMutation(api.documents.update);
+  // const update = useMutation(api.documents.update);
 
-  const onChange = (content: string) => {
-    update({
-      id: params.documentId,
-      content,
-    });
-  };
+  // const onChange = (content: string) => {
+  //   update({
+  //     id: params.documentId,
+  //     content,
+  //   });
+  // };
 
   if (document === undefined) {
     return (
@@ -59,12 +65,16 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   }
   return (
     <div className="pb-40">
-      <Cover url={document.coverImage} />
+      <Cover preview url={document.coverImage} />
       {/* md:max-w-3xl lg:max-w-4xl */}
       <div className=" w-full ml-10">
-        <Toolbar initialData={document} />
+        <Toolbar preview initialData={document} />
 
-        <Editor onChange={onChange} initialContent={document.content} />
+        <Editor
+          editable={false}
+          onChange={() => {}}
+          initialContent={document.content}
+        />
       </div>
       {/* 
       <p>Document Id page</p>

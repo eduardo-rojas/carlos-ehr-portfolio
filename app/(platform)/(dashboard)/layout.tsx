@@ -1,4 +1,4 @@
-import { SearchCommand } from "@/components/ui/search-command";
+import { SearchCommand } from "@/app/(platform)/(dashboard)/organization/[organizationId]/documents/[documentId]/_components/search-command";
 import Navbar from "./_components/navbar";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
