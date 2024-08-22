@@ -77,6 +77,7 @@ const DocumentsPage = () => {
         <PlusCircle className="h-4 w-4 mr-2" />
         Create a note
       </Button>
+
       {/* <DocumentList /> */}
       {/* {documentData} */}
       {/* <div>

@@ -2,6 +2,7 @@ import { SearchCommand } from "@/app/(platform)/(dashboard)/organization/[organi
 import Navbar from "./_components/navbar";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
+
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ThemeProvider

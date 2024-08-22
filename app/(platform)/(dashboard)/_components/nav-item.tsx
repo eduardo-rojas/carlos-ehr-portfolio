@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DocumentList } from "./documents-list";
 import { DocumentItem } from "./document-item";
 import { useSearch } from "@/hooks/use-search";
+import { MeetingsList } from "./meetings-list";
 
 export type Organization = {
   id: string;
@@ -56,6 +57,11 @@ export const NavItem = ({
       label: "Boards",
       icon: <Layout className="h-4 w-4 mr-2" />,
       href: `/organization/${organization.id}`,
+    },
+    {
+      label: "Meetings",
+      icon: <Layout className="h-4 w-4 mr-2" />,
+      href: `/organization/${organization.id}/meeting`,
     },
     {
       label: "Activity",
@@ -127,6 +133,7 @@ export const NavItem = ({
               {route.label}
             </Button>
             {route.label === "Documents" ? <DocumentList /> : ""}
+            {route.label === "Meetings" ? <MeetingsList /> : ""}
             {/* {route.label === "Documents"
               ? documents?.map((document) => (
                   <p key={document._id}>{document.title}</p>
