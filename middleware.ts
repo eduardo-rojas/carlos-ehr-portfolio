@@ -2,6 +2,7 @@ import { authMiddleware, redirectToSignIn } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export default authMiddleware({
+  secretKey: process.env.CLERK_SECRET_KEY,
   publicRoutes: ["/", "/api/webhook", "/preview"],
   afterAuth(auth, req) {
     if (auth.userId && auth.isPublicRoute) {
