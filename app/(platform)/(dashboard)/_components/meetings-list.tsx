@@ -60,7 +60,7 @@ export const MeetingsList = ({
   ];
   return (
     <>
-      <div className="text-black dark:text-white mx-8 space-y-2 mb-1">
+      <div className="text-black dark:text-white  dark:bg-gray-dark mx-8 space-y-2 mb-1">
         {meetingSidebarLinks.map((link) => {
           {
             const isActive =
@@ -78,8 +78,8 @@ export const MeetingsList = ({
                 <Image
                   src={link.imgUrl}
                   alt={link.label}
-                  width={24}
-                  height={24}
+                  width={14}
+                  height={14}
                 />
                 <p>{link.label}</p>
               </Link>

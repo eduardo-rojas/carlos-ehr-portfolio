@@ -102,7 +102,7 @@ export const MeetingTypeList = () => {
         title="New Meeting"
         description="Start an instant meeting "
         handleClick={() => setMeetingState("isInstantMeeting")}
-        className="bg-orange-1"
+        className="bg-orange-600"
       />
       <HomeCard
         img="/icons/schedule.svg"
@@ -120,14 +120,14 @@ export const MeetingTypeList = () => {
             `/organization/${params.organizationId}/meeting/recordings`,
           )
         }
-        className="bg-purple-1"
+        className="bg-purple-500"
       />
       <HomeCard
         img="/icons/join-meeting.svg"
         title="Join Meeting"
         description="via invitation link "
         handleClick={() => setMeetingState("isJoiningMeeting")}
-        className="bg-yellow-1"
+        className="bg-red-500"
       />
 
       {!callDetails ? (
@@ -193,7 +193,7 @@ export const MeetingTypeList = () => {
         isOpen={meetingState === "isJoiningMeeting"}
         onClose={() => setMeetingState(undefined)}
         title="Type the link here"
-        className="text-center"
+        className="text-center "
         buttonText="Join Meeting"
         handleClick={() => router.push(values.link)}
       >

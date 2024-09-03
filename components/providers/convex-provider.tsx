@@ -15,6 +15,17 @@ export const ConvexClientProvider = ({
   return (
     <ClerkProvider
       appearance={{
+        organizationList: {
+          variables: {
+            colorText: "#fff",
+            colorPrimary: "#0E78F9",
+            colorTextSecondary: "#fff",
+            colorBackground: "#1c1f2e",
+            colorInputBackground: "#252a41",
+            colorInputText: "#fff",
+            colorTextOnPrimaryBackground: "#fff",
+          },
+        },
         layout: { logoImageUrl: "/logo.png" },
         variables: {
           colorText: "#fff",
@@ -22,6 +33,17 @@ export const ConvexClientProvider = ({
           colorBackground: "#1c1f2e",
           colorInputBackground: "#252a41",
           colorInputText: "#fff",
+        },
+        organizationProfile: {
+          variables: {
+            colorText: "#fff",
+            colorPrimary: "#0E78F9",
+            colorTextSecondary: "#fff",
+            colorBackground: "#1c1f2e",
+            colorInputBackground: "#252a41",
+            colorInputText: "#fff",
+            colorTextOnPrimaryBackground: "#fff",
+          },
         },
       }}
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}

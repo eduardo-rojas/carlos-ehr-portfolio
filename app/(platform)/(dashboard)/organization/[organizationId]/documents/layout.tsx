@@ -16,7 +16,7 @@ const OrganizationDocumentsLayout = ({
 
   return (
     <>
-      <div className="w-full h-full flex dark:bg-[#1f1f1f] ">
+      <div className="w-full h-full flex dark:bg-[#020D1A] ">
         <main className="flex-1 h-full overflow-y-auto">{children}</main>
       </div>
     </>

@@ -54,7 +54,7 @@ const DocumentIdLayout = async ({
   // }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full dark:bg-[#020D1A]">
       <DocumentNavbar />
       <main className="pt-3 w-full h-full">{children}</main>
     </div>

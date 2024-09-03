@@ -58,7 +58,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     return <div>Not found</div>;
   }
   return (
-    <div className="pb-40">
+    <div className="pb-40 dark:bg-[#020D1A] dark:text-dark-6">
       <Cover url={document.coverImage} />
       {/* md:max-w-3xl lg:max-w-4xl */}
       <div className=" w-full ml-10">

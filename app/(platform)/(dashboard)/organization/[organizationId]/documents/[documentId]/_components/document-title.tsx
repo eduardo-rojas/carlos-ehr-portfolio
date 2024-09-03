@@ -46,7 +46,7 @@ export const DocumentTitle = ({ initialData }: DocumentTitleProps) => {
   };
 
   return (
-    <div className="flex tiems-center gap-x-1">
+    <div className="flex tiems-center gap-x-1 dark:bg-dark-4 dark:text-dark-6">
       {!!initialData.icon && <p>{initialData.icon}</p>}
       {isEditing ? (
         <Input

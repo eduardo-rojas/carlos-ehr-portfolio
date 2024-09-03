@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+// import "jsvectormap/dist/css/jsvectormap.css";
+import "flatpickr/dist/flatpickr.min.css";
+import "./css/satoshi.css";
+// import "./css/globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });

@@ -22,7 +22,7 @@ function Meeting({ params }: MeetingRoomProps) {
 
   if (!isLoaded || isCallLoading) return <Loader />;
   return (
-    <main className="h-screen w-full bg-newDark-3">
+    <main className="h-screen w-full dark:bg-[#020D1A] dark:text-dark-6">
       <StreamCall call={call}>
         <StreamTheme>
           {!isSetupComplete ? (

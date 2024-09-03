@@ -12,6 +12,7 @@ import {
   CreditCard,
   FileText,
   Layout,
+  LayoutDashboardIcon,
   PlusCircle,
   Search,
   Settings,
@@ -48,6 +49,11 @@ export const NavItem = ({
   const router = useRouter();
   const pathname = usePathname();
   const routes = [
+    {
+      label: "Dashboard",
+      icon: <LayoutDashboardIcon className="h-4 w-4 mr-2" />,
+      href: `/organization/${organization.id}/dashboard`,
+    },
     {
       label: "Documents",
       icon: <FileText className="h-4 w-4 mr-2" />,
@@ -124,7 +130,7 @@ export const NavItem = ({
               size="sm"
               onClick={() => onClick(route.href)}
               className={cn(
-                "w-full font-normal dark:text-white  justify-start pl-10 mb-1",
+                "w-full text-sm font-medium dark:text-white  justify-start pl-10 mb-5",
                 pathname === route.href && "bg-sky-500/10 text-sky-700",
               )}
               variant="ghost"

@@ -11,16 +11,17 @@ const PlatformLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     // <ClerkProvider>
 
-    <ConvexClientProvider>
-      <EdgeStoreProvider>
-        <QueryProvider>
-          <Toaster />
-          <ModalProvider />
-          {children}
-        </QueryProvider>
-      </EdgeStoreProvider>
-    </ConvexClientProvider>
-
+    <div className="w-full h-full">
+      <ConvexClientProvider>
+        <EdgeStoreProvider>
+          <QueryProvider>
+            <Toaster />
+            <ModalProvider />
+            {children}
+          </QueryProvider>
+        </EdgeStoreProvider>
+      </ConvexClientProvider>
+    </div>
     // </ClerkProvider>
   );
 };

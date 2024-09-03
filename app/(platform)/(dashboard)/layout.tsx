@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       disableTransitionOnChange
       storageKey="carlos-theme"
     >
-      <div className="dark:text-white  w-full h-full dark:bg-[#1f1f1f]">
+      <div className=" w-full min-h-full  dark:border-stroke-dark dark:bg-gray-dark dark:text-dark-6">
         <Navbar />
         <SearchCommand />
         {children}

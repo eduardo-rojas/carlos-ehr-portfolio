@@ -38,7 +38,11 @@ export const DocumentOptions = ({ data }: DocumentOptionsProps) => {
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="px-0 pt-3 pb-3" side="bottom" align="end">
+      <PopoverContent
+        className="px-0 pt-3 pb-3 z-999 dark:bg-dark-4 dark:text-dark-6"
+        side="bottom"
+        align="end"
+      >
         <div className="text-sm font-medium text-center text-neutral-600 pb-4">
           Document actions
         </div>

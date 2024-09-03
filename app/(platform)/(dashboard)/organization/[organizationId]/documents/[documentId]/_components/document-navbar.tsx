@@ -51,7 +51,7 @@ export const DocumentNavbar = () => {
 
   if (document === undefined) {
     return (
-      <nav className="bg-background dark:bg-[#1f1f1f] px-3 py-2 flex items-center ">
+      <nav className=" dark:bg-[#020D1A] dark:text-dark-6 px-3 py-2 flex items-center ">
         <DocumentTitle.Skeleton />
         <div className="flex items-center justify-between w-full">
           <DocumentTitle.Skeleton />

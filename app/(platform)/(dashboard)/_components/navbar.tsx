@@ -7,7 +7,7 @@ import { FormPopover } from "@/components/form/form-popover";
 import { ModeToggle } from "@/components/mode-toggle";
 const Navbar = () => {
   return (
-    <nav className="dark:bg-[#1f1f1f] dark:text-white fixed z-50 top-0 px-4  w-full h-14 border-b shadow-sm bg-white flex items-center">
+    <nav className="dark:border-stroke-dark dark:bg-gray-dark dark:text-white fixed z-50 top-0 px-4  w-full h-14 border-b shadow-sm bg-white flex items-center">
       {/* MOBILE SIDEBAR */}
       <MobileSidebar />
       {/* DESKTOP SIDEBAR */}
