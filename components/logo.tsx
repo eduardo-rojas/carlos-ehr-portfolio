@@ -32,7 +32,10 @@ export const Logo = () => {
           className="hidden dark:block"
         />
         <p
-          className={cn("text-lg text-neutral-700 pb-1", headingFont.className)}
+          className={cn(
+            "text-lg text-neutral-700 dark:text-gray-3 pb-1",
+            headingFont.className,
+          )}
         >
           carlos-ehr
         </p>
