@@ -67,7 +67,7 @@ export const Sidebar = ({
   return (
     <>
       <div className="dark:border-stroke-dark dark:bg-gray-dark dark:text-dark-6  font-medium text-xs flex items-center mb-1">
-        <span className="pl-4">Workspaces</span>
+        <span className="pl-4">Projects</span>
         <Button
           asChild
           type="button"

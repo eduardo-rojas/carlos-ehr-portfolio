@@ -67,7 +67,10 @@ export const Publish = ({ initialData }: PublishProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button size="sm" variant="ghost">
+        <Button
+          size="sm"
+          className="bg-slate-400/15 dark:bg-slate-800 hover:text-black"
+        >
           Publish
           {initialData.isPublished && (
             <Globe className="text-sky-500 w-4 h-4 ml-2" />
@@ -83,7 +86,7 @@ export const Publish = ({ initialData }: PublishProps) => {
                 This note is live on the internet.
               </p>
             </div>
-            <div className="flex items-center">
+            <div className="dark:bg-slate-800 flex items-center">
               <input
                 className="flex-1 px-2 text-xs border rounded-l-md h-8 bg-muted truncate"
                 value={url}
@@ -92,21 +95,25 @@ export const Publish = ({ initialData }: PublishProps) => {
               <Button
                 onClick={onCopy}
                 disabled={copied}
-                className="h-8 rounded-l-none"
+                className="dark:bg-slate-800 h-8 rounded-l-none"
               >
                 {copied ? (
-                  <Check className="h-4 w-4" />
+                  <Check className="dark:bg-slate-800 h-4 w-4" />
                 ) : (
                   <Copy className="h-4 w-4" />
                 )}
               </Button>
             </div>
-            <Button onClick={onUnpublish} className="w-full text-xs" size="sm">
+            <Button
+              onClick={onUnpublish}
+              className="dark:bg-slate-800 w-full text-xs"
+              size="sm"
+            >
               Unpublish
             </Button>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center">
+          <div className="dark:bg-[#020D1A] flex flex-col items-center justify-center">
             <Globe className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-sm font-medium mb-2">Publish this note</p>
             <span className="text-xs text-muted-foreground mb-4">
@@ -115,7 +122,7 @@ export const Publish = ({ initialData }: PublishProps) => {
             <Button
               disabled={isSubmitting}
               onClick={onPublish}
-              className="w-full text-xs"
+              className="dark:bg-slate-500 w-full text-xs"
               size="sm"
             >
               Publish

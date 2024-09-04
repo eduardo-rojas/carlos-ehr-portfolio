@@ -34,7 +34,7 @@ const DocumentsPage = () => {
   };
 
   return (
-    <div className="max-h-screen flex flex-col items-center justify-center  md:pt-11 space-y-4">
+    <div className="dark:bg-[#020D1A] max-h-screen flex flex-col items-center justify-center  md:pt-11 space-y-4">
       <div className="hidden dark:block w-full h-[350px]">
         <Spline scene="https://prod.spline.design/DCCzDMGisyF6CCrW/scene.splinecode" />
       </div>

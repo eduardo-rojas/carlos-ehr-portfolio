@@ -75,7 +75,7 @@ export const DocumentNavbar = () => {
   }
   return (
     <>
-      <nav className="bg-background dark:bg-[#1f1f1f] px-3 py-2 flex items-center gap-x-4">
+      <nav className="bg-background dark:bg-dark-1 px-3 py-2 flex items-center gap-x-4">
         {/* <MenuIcon
           role="button"
           // onClick={onResetWidth}
@@ -89,7 +89,7 @@ export const DocumentNavbar = () => {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button className="bg-white dark:bg-[#1f1f1f] hover:bg-gray-100 dark:hover:bg-slate-500">
+              <Button className="bg-white dark:bg-dark-2 hover:bg-gray-100 dark:hover:bg-slate-500">
                 <MoreHorizontalIcon className="h-4 w-4 text-slate-600 dark:text-slate-50" />
               </Button>
             </DropdownMenuTrigger>
