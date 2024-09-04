@@ -15,10 +15,10 @@ const Navbar = () => {
         <div className="hidden md:flex">
           <Logo />
         </div>
-        <FormPopover align="start" side="bottom" sideOffset={18}>
+        {/* <FormPopover align="start" side="bottom" sideOffset={18}>
           <Button
             size="sm"
-            variant="primary"
+            variant="secondary"
             className="rounded-sm hidden md:block h-auto py-1.5 px-2"
           >
             Crear
@@ -26,23 +26,31 @@ const Navbar = () => {
         </FormPopover>
         <FormPopover>
           <Button
-            variant="primary"
+            variant="secondary"
             size="sm"
             className="rounded-sm block md:hidden"
           >
             <Plus className="h-4 w-4" />
           </Button>
-        </FormPopover>
+        </FormPopover> */}
       </div>
 
-      <div className="ml-auto flex items-center gap-x-2">
+      <div className="ml-auto flex items-center gap-x-2 ">
         <ModeToggle />
-        <OrganizationSwitcher
+        {/* <OrganizationSwitcher
           hidePersonal
           afterCreateOrganizationUrl="/organization/:id"
           afterLeaveOrganizationUrl="/select-org"
           afterSelectOrganizationUrl="/organization/:id"
           appearance={{
+            // variables: {
+            //   colorText: "#fff",
+            // },
+            variables: {
+              colorText: "#ff2",
+              colorPrimary: "#ff2",
+              colorTextSecondary: "#ff2",
+            },
             elements: {
               rootBox: {
                 display: "flex",
@@ -51,7 +59,7 @@ const Navbar = () => {
               },
             },
           }}
-        />
+        /> */}
         <UserButton
           afterSignOutUrl="/"
           appearance={{

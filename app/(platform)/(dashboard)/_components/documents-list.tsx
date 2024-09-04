@@ -42,14 +42,14 @@ export const DocumentList = ({
   };
 
   const { organization } = useOrganization();
-
-  // const { data: documentData } = useQuery<Document[]>({
-  //   queryKey: ["documents", organization?.id],
-  //   queryFn: () => fetcher(`/api/documents/${organization?.id}`),
-  // // });
+  if (!organization?.id) {
+    redirect("/select-org");
+  }
+  const orgId = organization?.id;
 
   const documents = useQuery(api.documents.getSidebar, {
     parentDocument: parentDocumentId,
+    orgId: orgId,
   });
 
   if (!organization) {
@@ -57,7 +57,7 @@ export const DocumentList = ({
   }
 
   const onRedirect = (documentId: string) => {
-    router.push(`/organization/${organization.id}/documents/${documentId}`);
+    router.push(`/organization/${orgId}/documents/${documentId}`);
   };
 
   if (documents === undefined) {
@@ -76,12 +76,6 @@ export const DocumentList = ({
     );
   }
 
-  // const [orderedDocs, setOrderedDocs] = useState(documentData);
-
-  // useEffect(() => {
-  //   setOrderedDocs(documentData);
-  // }, [documentData]);
-
   return (
     <>
       <p
@@ -94,7 +88,7 @@ export const DocumentList = ({
       >
         No pages inside
       </p>
-      <div className="dark:text-white  mx-8 space-y-2 mb-1 ">
+      <div className="dark:text-white   w-fill  mx-1 space-y-2 mb-1 ">
         {level === 0 && (
           <DocumentItem
             label="Search"
@@ -124,38 +118,22 @@ export const DocumentList = ({
         ))}
         {/* TRASHCAN */}
         {level === 0 && (
-          <Popover>
-            <PopoverTrigger className="w-full mt-4">
-              <DocumentItem label="Trash" icon={Trash} />
-            </PopoverTrigger>
-            <PopoverContent
-              className="p-0 w-72"
-              // side={isMobile ? "bottom" : "right"}
-            >
-              <TrashBox />
-            </PopoverContent>
-          </Popover>
+          <div className="">
+            <Popover>
+              <PopoverTrigger className="w-full mt-4 ">
+                <DocumentItem label="Trash" icon={Trash} />
+              </PopoverTrigger>
+              <PopoverContent
+                className="p-0 w-72 bg-slate-200 dark:bg-dark-2 text-dark-2 dark:text-slate-200"
+                side="right"
+                align="center"
+              >
+                <TrashBox />
+              </PopoverContent>
+            </Popover>
+          </div>
         )}
       </div>
-      {/* <div className="dark:text-white  mx-8 space-y-2 mb-1 ">
-        <DocumentItem
-          label="Search"
-          icon={Search}
-          isSearch
-          onClick={search.onOpen}
-        />
-        {documentData?.map((document) => (
-          <DocumentItem
-            key={document.id}
-            id={document.id}
-            onClick={() => onRedirect(document.id)}
-            label={document.title}
-            icon={FileIcon}
-            documentIcon={document.icon}
-            active={params.documentId === document.id}
-          />
-        ))}
-      </div> */}
     </>
   );
 };

@@ -1,27 +1,13 @@
 "use client";
-import { db } from "@/lib/db";
-import { useOrganization, useUser } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
+
 import { redirect, useParams, usePathname, useRouter } from "next/navigation";
-import { fetcher } from "@/lib/fetcher";
-import { useQuery } from "convex/react";
-import { Document } from "@prisma/client";
-import { useEffect, useState } from "react";
-import { FileIcon, Search, Trash } from "lucide-react";
+import { FileIcon, Search, Trash, UserRound } from "lucide-react";
 import { useSearch } from "@/hooks/use-search";
 import { Doc, Id } from "@/convex/_generated/dataModel";
-import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { TrashBox } from "./trash-box";
-import Image from "next/image";
 
-interface DocumentListProps {
+interface MeetingsListProps {
   parentDocumentId?: Id<"documents">;
   level?: number;
   data?: Doc<"documents">[];
@@ -30,7 +16,7 @@ interface DocumentListProps {
 export const MeetingsList = ({
   parentDocumentId,
   level = 0,
-}: DocumentListProps) => {
+}: MeetingsListProps) => {
   const search = useSearch();
   const params = useParams();
   const router = useRouter();
@@ -75,12 +61,8 @@ export const MeetingsList = ({
                   { "bg-newBlue-1": isActive },
                 )}
               >
-                <Image
-                  src={link.imgUrl}
-                  alt={link.label}
-                  width={14}
-                  height={14}
-                />
+                <UserRound className="w-4 h-4" />
+
                 <p>{link.label}</p>
               </Link>
             );

@@ -20,7 +20,7 @@ export const ConvexClientProvider = ({
             colorText: "#fff",
             colorPrimary: "#0E78F9",
             colorTextSecondary: "#fff",
-            colorBackground: "#1c1f2e",
+            colorBackground: "#9CA3AF",
             colorInputBackground: "#252a41",
             colorInputText: "#fff",
             colorTextOnPrimaryBackground: "#fff",
@@ -34,12 +34,20 @@ export const ConvexClientProvider = ({
           colorInputBackground: "#252a41",
           colorInputText: "#fff",
         },
+        organizationSwitcher: {
+          variables: {
+            colorText: "#fff",
+            colorBackground: "#6B7280",
+
+            colorTextOnPrimaryBackground: "#fff",
+          },
+        },
         organizationProfile: {
           variables: {
             colorText: "#fff",
             colorPrimary: "#0E78F9",
             colorTextSecondary: "#fff",
-            colorBackground: "#1c1f2e",
+            colorBackground: "#9CA3AF",
             colorInputBackground: "#252a41",
             colorInputText: "#fff",
             colorTextOnPrimaryBackground: "#fff",

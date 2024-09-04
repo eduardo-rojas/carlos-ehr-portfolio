@@ -13,7 +13,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
     >
       <div className="h-full  dark:bg-[#020D1A]  dark:text-dark-6">
         <Navbar />
-        <main className="h-full pt-40">{children}</main>
+        <main className="min-h-fit ">{children}</main>
       </div>
     </ThemeProvider>
   );

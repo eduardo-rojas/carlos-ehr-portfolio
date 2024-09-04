@@ -7,11 +7,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth, useOrganization, useUser } from "@clerk/nextjs";
+import { useOrganization, useUser } from "@clerk/nextjs";
 import {
   ChevronDownIcon,
   ChevronRight,
-  ChevronUpIcon,
   LucideIcon,
   MoreHorizontal,
   Plus,
@@ -20,13 +19,12 @@ import {
 
 import { toast } from "sonner";
 import { MouseEvent } from "react";
-// import { DocumentItemOptions } from "./document-options";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 interface ItemProps {
   id?: Id<"documents">;
@@ -58,14 +56,18 @@ export const DocumentItem = ({
 
   const { user } = useUser();
   const { organization } = useOrganization();
+  if (!organization?.id) {
+    redirect("/select-org");
+  }
+  const orgId = organization?.id;
 
   const archive = useMutation(api.documents.archive);
 
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     if (!id) return;
-    const promise = archive({ id }).then(() =>
-      router.push(`/organization/${organization?.id}/documents`),
+    const promise = archive({ id, orgId }).then(() =>
+      router.push(`/organization/${orgId}/documents`),
     );
 
     toast.promise(promise, {
@@ -86,16 +88,18 @@ export const DocumentItem = ({
     event.stopPropagation();
     if (!id) return;
 
-    const promise = create({ title: "Untitled", parentDocument: id }).then(
-      (documentId) => {
-        if (!expanded) {
-          onExpand?.();
-        }
-        // router.push(
-        //   `/organization/${organization?.id}/documents/${documentId}`,
-        // );
-      },
-    );
+    const promise = create({
+      title: "Untitled",
+      orgId: orgId,
+      parentDocument: id,
+    }).then((documentId) => {
+      if (!expanded) {
+        onExpand?.();
+      }
+      // router.push(
+      //   `/organization/${organization?.id}/documents/${documentId}`,
+      // );
+    });
 
     toast.promise(promise, {
       loading: "Creating a new note...",
@@ -111,7 +115,7 @@ export const DocumentItem = ({
       role="button"
       style={{ paddingLeft: level ? `${level * 12 + 12}px` : "12px" }}
       className={cn(
-        "group min-h-[27px] text-sm py-1 pr-3 hover:bg-primary/5 flex items-center text-muted-foreground  dark:text-white  w-full font-normal justify-start pl-10 mb-1",
+        "group min-h-[27px] max-w-fill text-sm py-1 pr-1 hover:bg-primary/5 flex items-center text-muted-foreground  dark:text-white   font-normal justify-start pl-1 mb-1",
         active && "bg-primary/5 text-primary",
       )}
     >
@@ -119,7 +123,7 @@ export const DocumentItem = ({
       {!!id && (
         <div
           role="button"
-          className="h-ull rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
+          className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
           //@ts-ignore
           onClick={handleExpand}
         >
@@ -146,35 +150,39 @@ export const DocumentItem = ({
         <div
           role="button"
           onClick={() => {}}
-          className="ml-auto flex items-center gap-x-2"
+          className="ml-auto flex items-end "
           // className="w-7 opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
         >
           <DropdownMenu>
             <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
               <div
                 role="button"
-                className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+                className="opacity-0  group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
               >
                 <MoreHorizontal className="h-5 w-7 text-muted-foreground" />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-60"
+              className="w-60 bg-slate-200 dark:bg-dark-2 p-3"
               align="start"
               side="right"
               forceMount
             >
               {/* DELETE Document */}
               {/* <DocumentItemOptions id={id} /> */}
-              <DropdownMenuItem
-                //@ts-ignore
-                onClick={onArchive}
+              <div
+                role="button"
+                className="hover:bg-dark-7 dark:hover:text-newDark-1 text-newDark-1 dark:text-slate-200"
               >
-                <Trash className="h-4 w-4 mr-2 " />
-                Delete
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  //@ts-ignore
+                  onClick={onArchive}
+                >
+                  <Trash className="h-4 w-4 mr-2 " />
+                  Delete
+                </DropdownMenuItem>
+              </div>
+              <DropdownMenuSeparator className="bg-slate-400" />
               <div>Last edited by: {user?.fullName}</div>
             </DropdownMenuContent>
           </DropdownMenu>

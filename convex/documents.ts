@@ -3,7 +3,7 @@ import { mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
 
 export const archive = mutation({
-  args: { id: v.id("documents") },
+  args: { id: v.id("documents"), orgId: v.string() },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
 
@@ -12,6 +12,8 @@ export const archive = mutation({
     }
 
     const userId = identity.subject;
+
+    const orgId = args.orgId;
 
     const existingDocument = await ctx.db.get(args.id);
 
@@ -26,8 +28,8 @@ export const archive = mutation({
     const recursiveArchive = async (documentId: Id<"documents">) => {
       const children = await ctx.db
         .query("documents")
-        .withIndex("by_user_parent", (q) =>
-          q.eq("userId", userId).eq("parentDocument", documentId),
+        .withIndex("by_org_parent", (q) =>
+          q.eq("orgId", orgId).eq("parentDocument", documentId),
         )
         .collect();
 
@@ -51,6 +53,7 @@ export const archive = mutation({
 
 export const getSidebar = query({
   args: {
+    orgId: v.string(),
     parentDocument: v.optional(v.id("documents")),
   },
   handler: async (ctx, args) => {
@@ -61,11 +64,12 @@ export const getSidebar = query({
     }
 
     const userId = identity.subject;
+    const orgId = args.orgId;
 
     const documents = await ctx.db
       .query("documents")
-      .withIndex("by_user_parent", (q) =>
-        q.eq("userId", userId).eq("parentDocument", args.parentDocument),
+      .withIndex("by_org_parent", (q) =>
+        q.eq("orgId", orgId).eq("parentDocument", args.parentDocument),
       )
       .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
@@ -78,6 +82,7 @@ export const getSidebar = query({
 export const create = mutation({
   args: {
     title: v.string(),
+    orgId: v.string(),
     parentDocument: v.optional(v.id("documents")),
   },
   handler: async (ctx, args) => {
@@ -88,11 +93,13 @@ export const create = mutation({
     }
 
     const userId = identity.subject;
+    const orgId = args.orgId;
 
     const document = await ctx.db.insert("documents", {
       title: args.title,
       parentDocument: args.parentDocument,
       userId,
+      orgId,
       isArchived: false,
       isPublished: false,
     });
@@ -109,11 +116,12 @@ export const getTrash = query({
       throw new Error("Not authenticated");
     }
 
-    const userId = identity.subject;
+    // const userId = identity.subject;
+    const orgId = args.orgId;
 
     const documents = await ctx.db
       .query("documents")
-      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .withIndex("by_orgId", (q) => q.eq("orgId", orgId as string))
       .filter((q) => q.eq(q.field("isArchived"), true))
       .order("desc")
       .collect();
@@ -123,7 +131,7 @@ export const getTrash = query({
 });
 
 export const restore = mutation({
-  args: { id: v.id("documents") },
+  args: { id: v.id("documents"), orgId: v.string() },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
 
@@ -132,6 +140,7 @@ export const restore = mutation({
     }
 
     const userId = identity.subject;
+    const orgId = args.orgId;
 
     const existingDocument = await ctx.db.get(args.id);
 
@@ -146,8 +155,8 @@ export const restore = mutation({
     const recursiveRestore = async (documentId: Id<"documents">) => {
       const children = await ctx.db
         .query("documents")
-        .withIndex("by_user_parent", (q) =>
-          q.eq("userId", userId).eq("parentDocument", documentId),
+        .withIndex("by_org_parent", (q) =>
+          q.eq("orgId", orgId).eq("parentDocument", documentId),
         )
         .collect();
 

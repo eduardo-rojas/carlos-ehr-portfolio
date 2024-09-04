@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export const Heading = () => {
   return (
-    <div className="dark:bg-[#1f1f1f] max-w-3xl space-y-4">
+    <div className=" max-w-3xl space-y-4">
       <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold">
         Carlos Eduardo Hoyos{" "}
         <span className="underline">Software Developer</span>

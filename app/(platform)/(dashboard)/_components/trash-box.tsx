@@ -3,7 +3,7 @@
 import { api } from "@/convex/_generated/api";
 import { useOrganization } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
@@ -14,10 +14,17 @@ import { ConfirmModal } from "@/components/modals/confirm-modal";
 export const TrashBox = () => {
   const router = useRouter();
   const params = useParams();
-  const documents = useQuery(api.documents.getTrash, {});
+
+  const { organization } = useOrganization();
+
+  if (!organization?.id) {
+    redirect("/select-org");
+  }
+  const orgId = organization.id;
+
+  const documents = useQuery(api.documents.getTrash, { orgId: orgId });
   const restore = useMutation(api.documents.restore);
   const remove = useMutation(api.documents.remove);
-  const { organization } = useOrganization();
 
   const [search, setSearch] = useState("");
 
@@ -26,7 +33,7 @@ export const TrashBox = () => {
   });
 
   const onClick = (documentId: string) => {
-    router.push(`/organization/${organization?.id}/documents/${documentId}`);
+    router.push(`/organization/${orgId}/documents/${documentId}`);
   };
 
   const onRestore = (
@@ -34,7 +41,7 @@ export const TrashBox = () => {
     documentId: Id<"documents">,
   ) => {
     event.stopPropagation();
-    const promise = restore({ id: documentId });
+    const promise = restore({ id: documentId, orgId: orgId });
 
     toast.promise(promise, {
       loading: "Restoring note..",

@@ -16,6 +16,7 @@ import {
   PlusCircle,
   Search,
   Settings,
+  Users2Icon,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DocumentList } from "./documents-list";
 import { DocumentItem } from "./document-item";
 import { useSearch } from "@/hooks/use-search";
-import { MeetingsList } from "./meetings-list";
+// import { MeetingsList } from "./meetings-list";
 
 export type Organization = {
   id: string;
@@ -66,7 +67,7 @@ export const NavItem = ({
     },
     {
       label: "Meetings",
-      icon: <Layout className="h-4 w-4 mr-2" />,
+      icon: <Users2Icon className="h-4 w-4 mr-2" />,
       href: `/organization/${organization.id}/meeting`,
     },
     {
@@ -139,7 +140,8 @@ export const NavItem = ({
               {route.label}
             </Button>
             {route.label === "Documents" ? <DocumentList /> : ""}
-            {route.label === "Meetings" ? <MeetingsList /> : ""}
+            {/* Meetings additional options */}
+            {/* {route.label === "Meetings" ? <MeetingsList /> : ""} */}
             {/* {route.label === "Documents"
               ? documents?.map((document) => (
                   <p key={document._id}>{document.title}</p>
