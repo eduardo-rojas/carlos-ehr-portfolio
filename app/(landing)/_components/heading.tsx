@@ -13,7 +13,7 @@ export const Heading = () => {
         I develop Full Stack Web applications with the T3 stack: Next.js,
         TypeScript and Tailwind.
       </h3>
-      <Button>Start your project!</Button>
+      <Button className="text-dark-2">Start your project!</Button>
     </div>
   );
 };

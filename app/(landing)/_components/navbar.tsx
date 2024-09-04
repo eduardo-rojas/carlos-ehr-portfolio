@@ -22,7 +22,7 @@ export const Navbar = () => {
           <Link href="/sign-in">Login</Link>
         </Button>
 
-        <Button size="sm" asChild>
+        <Button className="dark:text-dark-2" size="sm" asChild>
           <Link href="/sign-up">SignUp</Link>
         </Button>
       </div>
