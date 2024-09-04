@@ -33,6 +33,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   );
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
+    orgId: params.organizationId,
   });
 
   // const update = useMutation(api.documents.update);

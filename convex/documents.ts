@@ -237,7 +237,7 @@ export const getSearch = query({
 });
 
 export const getById = query({
-  args: { documentId: v.id("documents") },
+  args: { documentId: v.id("documents"), orgId: v.string() },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
 
@@ -257,8 +257,9 @@ export const getById = query({
     }
 
     const userId = identity.subject;
+    const orgId = args.orgId;
 
-    if (document.userId !== userId) {
+    if (document.orgId !== orgId) {
       throw new Error("Not authorized");
     }
     return document;

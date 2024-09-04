@@ -4,7 +4,7 @@ import { Banner } from "./banner";
 import { DocumentOptions } from "./document-options";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 import { indexOf } from "lodash";
 import { MenuIcon, MoreHorizontalIcon, Trash } from "lucide-react";
@@ -33,12 +33,21 @@ export const DocumentNavbar = () => {
   const archive = useMutation(api.documents.archive);
   const params = useParams();
 
+  if (!organization?.id) {
+    redirect("/select-org");
+  }
+  const orgId = organization.id;
+
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<"documents">,
+    orgId: orgId,
   });
 
   const onArchive = () => {
-    const promise = archive({ id: params.documentId as Id<"documents"> });
+    const promise = archive({
+      id: params.documentId as Id<"documents">,
+      orgId: orgId,
+    });
 
     toast.promise(promise, {
       loading: "Moving to trash...",
